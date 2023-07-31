@@ -176,3 +176,29 @@ def AllAlerts():
             'error': str(e)
         }
         return resp
+
+
+@app.route('/coin-details', methods=['POST'])
+def get_coin_details():
+    try:
+        data = request.json
+        name = data.get('name')
+        print(name)
+        # coin_name = request.args.get('name')
+        url = f"https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids={name}"
+        response = requests.get(url)
+        data = response.json()
+
+        resp = {
+            'status_code': 200,
+            'data': data
+        }
+        return resp
+
+    except Exception as e:
+        resp = {
+            'response_code': "230",
+            'response_message': traceback.print_exc(),
+            'error': str(e)
+        }
+        return resp
